@@ -45,7 +45,8 @@ WORKDIR /home/wallet
 RUN git clone https://github.com/namecoin/namecoin-core.git
 # build from source
 #RUN cd fair-coin && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make && strip src/qt/FairCoin-qt && strip src/FairCoind
-RUN cd namecoin-core && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make && strip bitcoind
+#RUN cd namecoin-core && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make && strip bitcoind
+RUN cd namecoin-core && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make
 
 
 # start script for some root tidy stuff
