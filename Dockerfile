@@ -41,14 +41,20 @@ WORKDIR /home/wallet
 # let's clone and build from source instead
 # RUN wget -c https://chain.fair-coin.org/download/faircoin-linux-v1.5.1.tar.bz2
 
-# clone from github
+# namecoin
 RUN git clone https://github.com/namecoin/namecoin-core.git
-RUN cd namecoin-core && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make
+RUN cd namecoin-core && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --enable-hardening --with-incompatible-bdb --disable-tests && make
+RUN cd namecoin-core && make install
 #RUN cd namecoin-core && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make && strip bitcoind
-# build from source
+
+#  faircoin
 RUN git clone https://github.com/FairCoinTeam/fair-coin.git
-RUN cd namecoin-core && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make
+RUN cd fair-coin && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --enable-hardening --with-incompatible-bdb --disable-tests && make && make install
 #RUN cd fair-coin && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make && strip src/qt/FairCoin-qt && strip src/FairCoind
+
+# original bitcoin
+RUN git clone https://github.com/bitcoin/bitcoin.git
+RUN cd bitcoin && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --enable-hardening --with-incompatible-bdb --disable-tests && make && make install
 
 
 # start script for some root tidy stuff
