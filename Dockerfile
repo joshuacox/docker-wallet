@@ -12,12 +12,17 @@ wget \
 x11vnc \
 net-tools \
 libboost-all-dev \
+libboost-system-dev libboost-filesystem-dev libboost-chrono-dev \
+libboost-program-options-dev libboost-test-dev libboost-thread-dev \
+libminiupnpc-dev \
+libzmq3-dev \
 libqrencode-dev \
+git \
+libdb-dev libdb++-dev \
+libleveldb-dev libleveldb-cil-dev \
 build-essential libtool autotools-dev autoconf pkg-config libssl-dev libevent-dev bsdmainutils \
 libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
-RUN apt-get -y install git
-RUN apt-get -y install libdb-dev libdb++-dev
-RUN apt-get -y install libleveldb-dev libleveldb-cil-dev
+
 
 # RUN echo 'en_US.ISO-8859-15 ISO-8859-15'>>/etc/locale.gen
 # RUN echo 'en_US ISO-8859-1'>>/etc/locale.gen
@@ -36,9 +41,12 @@ WORKDIR /home/wallet
 # RUN wget -c https://chain.fair-coin.org/download/faircoin-linux-v1.5.1.tar.bz2
 
 # clone from github
-RUN git clone https://github.com/FairCoinTeam/fair-coin.git
+#RUN git clone https://github.com/FairCoinTeam/fair-coin.git
+RUN git clone https://github.com/namecoin/namecoin-core.git
 # build from source
-RUN cd fair-coin && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make && strip src/qt/FairCoin-qt && strip src/FairCoind
+#RUN cd fair-coin && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make && strip src/qt/FairCoin-qt && strip src/FairCoind
+RUN cd namecoin-core && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make && strip bitcoind
+
 
 # start script for some root tidy stuff
 ADD start.sh /home/wallet/start.sh
