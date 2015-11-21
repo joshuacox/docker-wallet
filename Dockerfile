@@ -18,6 +18,7 @@ libminiupnpc-dev \
 libzmq3-dev \
 libqrencode-dev \
 git \
+sudo \
 libdb-dev libdb++-dev \
 libleveldb-dev libleveldb-cil-dev \
 build-essential libtool autotools-dev autoconf pkg-config libssl-dev libevent-dev bsdmainutils \
@@ -41,12 +42,13 @@ WORKDIR /home/wallet
 # RUN wget -c https://chain.fair-coin.org/download/faircoin-linux-v1.5.1.tar.bz2
 
 # clone from github
-#RUN git clone https://github.com/FairCoinTeam/fair-coin.git
 RUN git clone https://github.com/namecoin/namecoin-core.git
-# build from source
-#RUN cd fair-coin && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make && strip src/qt/FairCoin-qt && strip src/FairCoind
-#RUN cd namecoin-core && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make && strip bitcoind
 RUN cd namecoin-core && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make
+#RUN cd namecoin-core && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make && strip bitcoind
+# build from source
+RUN git clone https://github.com/FairCoinTeam/fair-coin.git
+RUN cd namecoin-core && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make
+#RUN cd fair-coin && ./autogen.sh && ./configure --prefix=/usr --disable-maintainer-mode --with-incompatible-bdb --disable-tests && make && strip src/qt/FairCoin-qt && strip src/FairCoind
 
 
 # start script for some root tidy stuff
